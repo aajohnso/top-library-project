@@ -10,10 +10,9 @@ function Book(title, author, numPages) {
 
 function addBook(book) {
     myLibrary.push(book);
-    displayBook(book);
 }
 
-function displayBook(book) {
+function displayBook(book, index) {
     let bookCard = document.createElement("div");
     let bookCardTitle = document.createElement("h2");
     let bookCardAuthor = document.createElement("p");
@@ -31,13 +30,17 @@ function displayBook(book) {
     bookCard.appendChild(bookCardAuthor);
     bookCard.appendChild(bookCardPages);
 
+    bookCard.setAttribute("book-index", index);
+
     bookContainer.appendChild(bookCard);
 }
 
 function showBooks() {
+    let bookIndex = 0;
     myLibrary.forEach(
         book => {
-            displayBook(book);
+            displayBook(book, bookIndex);
+            bookIndex++;
         }
     );
 }
@@ -49,8 +52,11 @@ function submitBook(event) {
     let newBookPages = document.getElementById("bookPages").value;
 
     let newBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+
+    bookContainer.innerHTML = "";
     
     addBook(newBook);
+    showBooks();
 
     event.preventDefault();
     bookForm.reset();
